@@ -1,0 +1,39 @@
+# ZYM 0.1 语法展示程序
+# 当前文件用于冻结语言设计；解释器完成后将成为第一个综合示例。
+
+shape Student {
+    name,
+    scores
+}.
+
+craft sum(values) {
+    let total := 0.
+    repeat i in 0..length(values) {
+        total := total + values[i].
+    }
+    give total.
+}
+
+craft average(values) {
+    when length(values) == 0 {
+        give 0.
+    }
+    give sum(values) / length(values).
+}
+
+let student := Student {
+    name: "小明",
+    scores: [88, 95, 76]
+}.
+
+say "学生：" + student.name.
+say "总分：" + toText(sum(student.scores)).
+say "平均分：" + toText(average(student.scores)).
+
+when average(student.scores) >= 90 {
+    say "等级：优秀".
+} otherwise when average(student.scores) >= 60 {
+    say "等级：通过".
+} otherwise {
+    say "等级：未通过".
+}
