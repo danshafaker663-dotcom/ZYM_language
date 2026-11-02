@@ -359,4 +359,3 @@ git push 推送到 GitHub
 8. Agent 生成的内容必须经过人工检查。
 9. Git 历史和 Agent 开发记录必须真实。
 10. 所有核心实现都需要能够在答辩时解释。
-ROLLBACK_TEST：这是一条用于验证 Git 回滚的临时内容。
