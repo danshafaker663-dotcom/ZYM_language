@@ -101,6 +101,24 @@ Agent 提供的内容必须经过学生检查，不能直接视为正确结果�
 - 验证：本地 `main` 与 `origin/main` 指向同一提交，README 中不存在临时标记，GitHub 历史保留临时提交和回滚提交。
 - 结论：公开分支上的错误提交应优先使用 `git revert` 撤销，避免使用强制推送重写公共历史。
 
+### 记录 006：定义 Token 数据模型
+
+- 日期：2026-11-02
+- 任务：开始解释器核心实现，定义词法分析阶段使用的 Token 类型和数据结构。
+- 学生输入：授权 Agent 创建并提交 Token 模块，同时要求解释 Token 类的作用。
+- Agent 辅助：
+  - 根据最终语法规范整理标点、运算符、字面量和关键字 Token。
+  - 创建 ZYM 包入口和 `zym/token.py`。
+  - 提供关键字文本到 Token 类型的映射表。
+  - 使用不可变数据类保存 Token 的类型、原文、值和源码位置。
+- 学生需要掌握：Token 是 Lexer 输出、Parser 输入的最小语法单位；行列信息用于错误诊断。
+- 修改文件：
+  - `zym/__init__.py`
+  - `zym/token.py`
+  - `docs/AGENT_DEVELOPMENT_LOG.md`
+- 验证：导入模块，构造整数 Token，检查关键字映射，并执行 Python 字节码编译检查。
+- 对应提交：`feat: define ZYM token model and keyword table`（哈希以 Git 历史为准）。
+
 ---
 
 ## 4. 后续记录要求
