@@ -139,6 +139,24 @@ Agent 提供的内容必须经过学生检查，不能直接视为正确结果�
 - 验证：运行字节码编译检查、Lexer 单元测试和 `git diff --check`。
 - 对应提交：`feat: implement ZYM lexer and lexical diagnostics`（哈希以 Git 历史为准）。
 
+### 记录 008：定义抽象语法树节点
+
+- 日期：2026-11-02
+- 任务：定义 Parser 输出、Interpreter 输入的 ZYM 抽象语法树结构。
+- 学生输入：在理解 Lexer 算法后继续下一阶段，并要求 Agent 实现代码后交由学生审核。
+- Agent 辅助：
+  - 定义 `Node`、`Expr`、`Stmt` 和 `Program` 基础结构。
+  - 定义字面量、变量、单目、双目、逻辑、数组、结构、索引、字段访问和函数调用表达式。
+  - 定义变量声明、赋值、输入输出、分支、循环、跳转、函数和结构声明语句。
+  - 使用不可变数据类和元组保存 AST，避免解析后被意外修改。
+  - 添加 AST 构造、嵌套关系和不可变性测试。
+- 修改文件：
+  - `zym/ast_nodes.py`
+  - `tests/test_ast_nodes.py`
+  - `docs/AGENT_DEVELOPMENT_LOG.md`
+- 验证：运行字节码编译、全部单元测试和 `git diff --check`。
+- 对应提交：`feat: define ZYM abstract syntax tree nodes`（哈希以 Git 历史为准）。
+
 ---
 
 ## 4. 后续记录要求
