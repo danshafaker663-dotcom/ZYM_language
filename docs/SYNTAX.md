@@ -24,7 +24,7 @@ ZYM 的关键字组合、句点终止符及输入输出写法构成其主要语�
 
 ```zym
 # 这是注释
-let answer := 42. # 行尾注释
+set answer := 42. # 行尾注释
 ```
 
 0.1 版本不支持多行注释。
@@ -45,12 +45,12 @@ item2
 保留关键字：
 
 ```text
-let true false null
-say ask
+set true false null
+output input
 when otherwise
-while repeat in
+while loop in
 break continue
-shape craft give
+declare makeFunction return
 and or not
 ```
 
@@ -61,9 +61,9 @@ and or not
 整数使用十进制表示。0.1 版本不支持浮点数。
 
 ```zym
-let zero := 0.
-let positive := 128.
-let negative := -32.
+set zero := 0.
+set positive := 128.
+set negative := -32.
 ```
 
 整数采用宿主 Python 的任意精度整数语义，不发生固定宽度溢出。
@@ -80,15 +80,15 @@ let negative := -32.
 ```
 
 ```zym
-let message := "hello\nZYM".
+set message := "hello\nZYM".
 ```
 
 ### 5.3 布尔值与空值
 
 ```zym
-let enabled := true.
-let finished := false.
-let missing := null.
+set enabled := true.
+set finished := false.
+set missing := null.
 ```
 
 ### 5.4 数组
@@ -96,8 +96,8 @@ let missing := null.
 数组是有序、可变、从 0 开始索引的值序列。一个数组可以保存不同类型的值。
 
 ```zym
-let values := [10, "ZYM", true].
-say values[0].
+set values := [10, "ZYM", true].
+output values[0].
 values[1] := "language".
 push(values, 99).
 ```
@@ -106,20 +106,20 @@ push(values, 99).
 
 ### 5.5 结构类型
 
-`shape` 声明一种结构类型及其固定字段。创建实例时必须为所有字段赋值，且不得提供未知字段。
+`declare` 声明一种结构类型及其固定字段。创建实例时必须为所有字段赋值，且不得提供未知字段。
 
 ```zym
-shape Student {
+declare Student {
     name,
     score
 }.
 
-let student := Student {
+set student := Student {
     name: "小明",
     score: 95
 }.
 
-say student.name.
+output student.name.
 student.score := 96.
 ```
 
@@ -134,7 +134,7 @@ student.score := 96.
 变量必须先声明后使用。
 
 ```zym
-let count := 1.
+set count := 1.
 count := count + 1.
 ```
 
@@ -179,7 +179,7 @@ player.health := 80.
 
 ```zym
 when length(items) > 0 {
-    say "not empty".
+    output "not empty".
 }
 ```
 
@@ -187,29 +187,29 @@ when length(items) > 0 {
 
 ### 9.1 输出
 
-`say` 计算表达式并向标准输出写入其文本形式和换行符。
+`output` 计算表达式并向标准输出写入其文本形式和换行符。
 
 ```zym
-say "hello".
-say 1 + 2.
+output "hello".
+output 1 + 2.
 ```
 
 数组和结构实例使用稳定、可读的格式输出，以便黑盒测试比较结果。
 
 ### 9.2 输入
 
-`ask` 先输出提示文本，再从标准输入读取一行字符串，并赋给目标变量。目标变量由 `ask` 声明，因此此前不需要 `let`。
+`input` 先输出提示文本，再从标准输入读取一行字符串，并赋给目标变量。目标变量由 `input` 声明，因此此前不需要 `set`。
 
 ```zym
-ask "请输入姓名：" -> name.
-ask "请输入年龄：" -> age_text.
-let age := toInt(age_text).
+input "请输入姓名：" -> name.
+input "请输入年龄：" -> age_text.
+set age := toInt(age_text).
 ```
 
 测试环境可以使用空提示文本，避免提示内容干扰预期输出：
 
 ```zym
-ask "" -> value.
+input "" -> value.
 ```
 
 读取到文件末尾时产生运行时错误。
@@ -218,11 +218,11 @@ ask "" -> value.
 
 ```zym
 when score >= 90 {
-    say "优秀".
+    output "优秀".
 } otherwise when score >= 60 {
-    say "通过".
+    output "通过".
 } otherwise {
-    say "未通过".
+    output "未通过".
 }
 ```
 
@@ -234,18 +234,18 @@ when score >= 90 {
 
 ```zym
 while count > 0 {
-    say count.
+    output count.
     count := count - 1.
 }
 ```
 
-### 11.2 repeat 范围循环
+### 11.2 loop 范围循环
 
 范围表达式 `start..end` 包含起点，不包含终点。
 
 ```zym
-repeat i in 0..3 {
-    say i.
+loop i in 0..3 {
+    output i.
 }
 ```
 
@@ -264,17 +264,17 @@ continue.
 
 ## 12. 函数
 
-函数使用 `craft` 定义，使用 `give` 返回结果。
+函数使用 `makeFunction` 定义，使用 `return` 返回结果。
 
 ```zym
-craft max(a, b) {
+makeFunction max(a, b) {
     when a > b {
-        give a.
+        return a.
     }
-    give b.
+    return b.
 }
 
-say max(4, 7).
+output max(4, 7).
 ```
 
 语义规则：
@@ -283,8 +283,8 @@ say max(4, 7).
 - 参数数量必须与定义完全一致
 - 每次调用创建独立的局部作用域
 - 函数可以调用自身或其他已经定义的函数
-- 没有执行 `give` 的函数返回 `null`
-- `give` 只能出现在函数内部
+- 没有执行 `return` 的函数返回 `null`
+- `return` 只能出现在函数内部
 
 0.1 版本不支持默认参数、可变参数和函数重载。
 
@@ -313,7 +313,7 @@ ZYM 使用词法作用域。
 - 分支和循环体形成块作用域
 - 名称查找从当前作用域逐层向外进行
 - 对变量赋值时，修改最近一层已经存在的同名变量
-- `let` 总是在当前作用域创建新变量
+- `set` 总是在当前作用域创建新变量
 
 ## 15. 错误类别
 
@@ -348,44 +348,44 @@ demo.zym:3:12: RuntimeError: division by zero
 ```ebnf
 program        = declaration* EOF ;
 
-declaration    = shape_decl
+declaration    = structure_decl
                | function_decl
                | statement ;
 
-shape_decl     = "shape" IDENT "{" field_list? "}" "." ;
+structure_decl = "declare" IDENT "{" field_list? "}" "." ;
 field_list     = IDENT ("," IDENT)* ","? ;
 
-function_decl  = "craft" IDENT "(" parameters? ")" block ;
+function_decl  = "makeFunction" IDENT "(" parameters? ")" block ;
 parameters     = IDENT ("," IDENT)* ;
 
-statement      = let_stmt
+statement      = set_stmt
                | assignment_stmt
-               | say_stmt
-               | ask_stmt
+               | output_stmt
+               | input_stmt
                | when_stmt
                | while_stmt
-               | repeat_stmt
+               | loop_stmt
                | break_stmt
                | continue_stmt
-               | give_stmt
+               | return_stmt
                | expression_stmt
                | block ;
 
-let_stmt       = "let" IDENT ":=" expression "." ;
+set_stmt       = "set" IDENT ":=" expression "." ;
 assignment_stmt= assign_target ":=" expression "." ;
 assign_target  = IDENT ("[" expression "]" | "." IDENT)* ;
-say_stmt       = "say" expression "." ;
-ask_stmt       = "ask" expression "->" IDENT "." ;
+output_stmt    = "output" expression "." ;
+input_stmt     = "input" expression "->" IDENT "." ;
 
 when_stmt      = "when" expression block
                  ("otherwise" "when" expression block)*
                  ("otherwise" block)? ;
 while_stmt     = "while" expression block ;
-repeat_stmt    = "repeat" IDENT "in" expression ".." expression block ;
+loop_stmt      = "loop" IDENT "in" expression ".." expression block ;
 
 break_stmt     = "break" "." ;
 continue_stmt  = "continue" "." ;
-give_stmt      = "give" expression? "." ;
+return_stmt    = "return" expression? "." ;
 expression_stmt= expression "." ;
 block          = "{" declaration* "}" ;
 
@@ -409,11 +409,11 @@ primary        = INTEGER
                | "null"
                | IDENT
                | array_literal
-               | shape_literal
+               | structure_literal
                | "(" expression ")" ;
 
 array_literal  = "[" arguments? "]" ;
-shape_literal  = IDENT "{" field_values? "}" ;
+structure_literal = IDENT "{" field_values? "}" ;
 field_values   = field_value ("," field_value)* ","? ;
 field_value    = IDENT ":" expression ;
 ```
