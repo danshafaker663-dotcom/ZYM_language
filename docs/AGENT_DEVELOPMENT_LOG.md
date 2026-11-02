@@ -119,6 +119,26 @@ Agent 提供的内容必须经过学生检查，不能直接视为正确结果�
 - 验证：导入模块，构造整数 Token，检查关键字映射，并执行 Python 字节码编译检查。
 - 对应提交：`feat: define ZYM token model and keyword table`（哈希以 Git 历史为准）。
 
+### 记录 007：实现词法分析器
+
+- 日期：2026-11-02
+- 任务：实现 ZYM Lexer 和词法错误诊断，并在提交前交由学生审核。
+- 学生输入：授权 Agent 实现代码，但要求先查看和审核代码，不立即提交。
+- Agent 辅助：
+  - 实现源码游标、行列位置跟踪和 EOF Token。
+  - 实现标点、算术运算符、多字符运算符和比较运算符扫描。
+  - 实现整数、字符串转义、Unicode 标识符和关键字识别。
+  - 实现 `#` 单行注释和空白字符处理。
+  - 实现包含文件名、行号和列号的 `LexError`。
+  - 使用 Python 标准库 `unittest` 添加 Lexer 单元测试。
+- 修改文件：
+  - `zym/errors.py`
+  - `zym/lexer.py`
+  - `tests/test_lexer.py`
+  - `docs/AGENT_DEVELOPMENT_LOG.md`
+- 验证：运行字节码编译检查、Lexer 单元测试和 `git diff --check`。
+- 对应提交：`feat: implement ZYM lexer and lexical diagnostics`（哈希以 Git 历史为准）。
+
 ---
 
 ## 4. 后续记录要求
