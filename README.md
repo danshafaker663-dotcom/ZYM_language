@@ -237,8 +237,10 @@ python tests/run_all.py
 执行性能测试：
 
 ```powershell
-python benchmark/run_benchmark.py
+python benchmark/run_comparison.py --sizes 5000 20000 50000 --repeats 7 --warmups 1
 ```
+
+该命令会先验证ZYM与Python质数筛输出一致，再进行多轮计时并生成CSV原始数据和汇总日志。完整结果见 `docs/PERFORMANCE_REPORT.md`。
 
 兼容入口 `python zym.py ...` 也可以使用。ZYM 源文件必须采用 UTF-8 编码。
 

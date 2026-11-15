@@ -1,0 +1,41 @@
+# ZYM 性能测试：埃拉托斯特尼质数筛
+# 输入上限 limit，输出不大于 limit 的质数数量与质数和。
+
+input "" -> limitText.
+set limit := toInt(limitText).
+set isPrime := [].
+
+loop index in 0..limit + 1 {
+    push(isPrime, true).
+}
+
+when limit >= 0 {
+    isPrime[0] := false.
+}
+when limit >= 1 {
+    isPrime[1] := false.
+}
+
+set candidate := 2.
+while candidate * candidate <= limit {
+    when isPrime[candidate] {
+        set multiple := candidate * candidate.
+        while multiple <= limit {
+            isPrime[multiple] := false.
+            multiple := multiple + candidate.
+        }
+    }
+    candidate := candidate + 1.
+}
+
+set primeCount := 0.
+set primeSum := 0.
+loop number in 2..limit + 1 {
+    when isPrime[number] {
+        primeCount := primeCount + 1.
+        primeSum := primeSum + number.
+    }
+}
+
+output primeCount.
+output primeSum.

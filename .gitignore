@@ -9,6 +9,7 @@ dist/
 build/
 benchmark/results/*.csv
 benchmark/results/*.json
+!benchmark/results/runtime_comparison.csv
 presentation/rendered/
 tmp/
 
