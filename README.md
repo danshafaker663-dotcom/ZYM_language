@@ -200,24 +200,30 @@ ZYM_language/
 
 部分文件将在后续开发阶段逐步创建。
 
-## 计划中的命令行接口
+## 命令行接口
 
 运行 ZYM 程序：
 
 ```powershell
-python zym.py run examples/hello.zym
+python -m zym run examples/syntax_tour.zym
+```
+
+也可以省略 `run`：
+
+```powershell
+python -m zym examples/syntax_tour.zym
 ```
 
 仅检查语法：
 
 ```powershell
-python zym.py check examples/hello.zym
+python -m zym check examples/syntax_tour.zym
 ```
 
 查看版本：
 
 ```powershell
-python zym.py --version
+python -m zym --version
 ```
 
 运行全部黑盒测试：
@@ -232,7 +238,31 @@ python tests/run_tests.py
 python benchmark/run_benchmark.py
 ```
 
-以上命令是计划中的最终接口。当前阶段解释器尚未完成，部分命令暂时不可用。
+兼容入口 `python zym.py ...` 也可以使用。ZYM 源文件必须采用 UTF-8 编码。
+
+### 编写自己的 ZYM 程序
+
+1. 在项目目录中创建扩展名为 `.zym` 的 UTF-8 文本文件，例如 `my_program.zym`。
+2. 写入 ZYM 代码：
+
+```zym
+input "请输入姓名：" -> name.
+output "你好，" + name + "！".
+```
+
+3. 在项目根目录运行：
+
+```powershell
+python -m zym my_program.zym
+```
+
+可以先运行并修改项目提供的入门示例：
+
+```powershell
+python -m zym examples/hello.zym
+```
+
+完整语法示例位于 `examples/syntax_tour.zym`，详细规则位于 `docs/SYNTAX.md`。
 
 ## 黑盒测试设计
 

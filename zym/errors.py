@@ -85,3 +85,15 @@ class ZymRuntimeError(ZymError):
             f"{self.filename}:{self.line}:{self.column}: "
             f"RuntimeError: {self.message}"
         )
+
+
+class ZymFileError(ZymError):
+    """Raised when a ZYM source file cannot be read."""
+
+    def __init__(self, message: str, *, filename: str) -> None:
+        super().__init__(message)
+        self.message = message
+        self.filename = filename
+
+    def __str__(self) -> str:
+        return f"{self.filename}: FileError: {self.message}"

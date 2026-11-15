@@ -1,0 +1,14 @@
+# ZYM 入门示例
+
+input "请输入你的名字：" -> name.
+
+set numbers := [10, 20, 30].
+set total := 0.
+
+loop i in 0..length(numbers) {
+    total := total + numbers[i].
+}
+
+output "你好，" + name + "！".
+output "数组内容：" + toText(numbers).
+output "数组总和：" + toText(total).

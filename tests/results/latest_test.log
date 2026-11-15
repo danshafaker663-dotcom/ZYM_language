@@ -1,6 +1,6 @@
 ZYM AUTOMATED TEST LOG
-timestamp=2026-11-15T13:26:56+08:00
-git_commit=3e89a87b83a5fb06a83e8455606f73fb1da330a3
+timestamp=2026-11-15T13:40:26+08:00
+git_commit=0362114adde32ccdc0f137571ea0abd0acdf9307
 git_dirty=true
 python=3.12.4
 platform=Windows-11-10.0.26200-SP0
@@ -12,6 +12,27 @@ test_nodes_are_immutable (test_ast_nodes.AstNodeTests.test_nodes_are_immutable) 
 test_otherwise_when_uses_nested_if_node (test_ast_nodes.AstNodeTests.test_otherwise_when_uses_nested_if_node) ... ok
 test_program_contains_declarations (test_ast_nodes.AstNodeTests.test_program_contains_declarations) ... ok
 test_variable_declaration (test_ast_nodes.AstNodeTests.test_variable_declaration) ... ok
+test_check_command_parses_without_running (test_cli.CliTests.test_check_command_parses_without_running) ... ok
+test_error_categories_have_documented_exit_codes (test_cli.CliTests.test_error_categories_have_documented_exit_codes) ... ok
+test_missing_file_returns_file_error_exit_code (test_cli.CliTests.test_missing_file_returns_file_error_exit_code) ... ok
+test_root_launcher_is_compatible (test_cli.CliTests.test_root_launcher_is_compatible) ... ok
+test_run_shorthand_executes_syntax_tour (test_cli.CliTests.test_run_shorthand_executes_syntax_tour) ... ok
+test_version (test_cli.CliTests.test_version) ... ok
+test_arithmetic_string_and_boolean_expressions (test_interpreter.InterpreterTests.test_arithmetic_string_and_boolean_expressions) ... ok
+test_array_index_assignment_and_builtins (test_interpreter.InterpreterTests.test_array_index_assignment_and_builtins) ... ok
+test_break_and_return_outside_valid_context_are_rejected (test_interpreter.InterpreterTests.test_break_and_return_outside_valid_context_are_rejected) ... ok
+test_division_by_zero_reports_runtime_error (test_interpreter.InterpreterTests.test_division_by_zero_reports_runtime_error) ... ok
+test_functions_closures_and_recursion (test_interpreter.InterpreterTests.test_functions_closures_and_recursion) ... ok
+test_input_and_conversion (test_interpreter.InterpreterTests.test_input_and_conversion) ... ok
+test_out_of_bounds_index_is_rejected (test_interpreter.InterpreterTests.test_out_of_bounds_index_is_rejected) ... ok
+test_rand_int_is_in_closed_range (test_interpreter.InterpreterTests.test_rand_int_is_in_closed_range) ... ok
+test_short_circuit_skips_unneeded_operand (test_interpreter.InterpreterTests.test_short_circuit_skips_unneeded_operand) ... ok
+test_strict_boolean_condition (test_interpreter.InterpreterTests.test_strict_boolean_condition) ... ok
+test_structure_creation_field_access_and_assignment (test_interpreter.InterpreterTests.test_structure_creation_field_access_and_assignment) ... ok
+test_syntax_tour_runs_end_to_end (test_interpreter.InterpreterTests.test_syntax_tour_runs_end_to_end) ... ok
+test_variable_assignment_and_block_shadowing (test_interpreter.InterpreterTests.test_variable_assignment_and_block_shadowing) ... ok
+test_when_while_loop_break_and_continue (test_interpreter.InterpreterTests.test_when_while_loop_break_and_continue) ... ok
+test_wrong_function_arity_is_rejected (test_interpreter.InterpreterTests.test_wrong_function_arity_is_rejected) ... ok
 test_all_keywords (test_lexer.LexerTests.test_all_keywords) ... ok
 test_comment_and_source_position (test_lexer.LexerTests.test_comment_and_source_position) ... ok
 test_eof_position (test_lexer.LexerTests.test_eof_position) ... ok
@@ -34,6 +55,7 @@ test_missing_statement_dot_reports_position (test_parser.ParserTests.test_missin
 test_operator_precedence (test_parser.ParserTests.test_operator_precedence) ... ok
 test_otherwise_when_is_nested_if (test_parser.ParserTests.test_otherwise_when_is_nested_if) ... ok
 test_postfix_expression_chain (test_parser.ParserTests.test_postfix_expression_chain) ... ok
+test_statement_dot_before_identifier_on_next_line (test_parser.ParserTests.test_statement_dot_before_identifier_on_next_line) ... ok
 test_structure_declaration_and_literal (test_parser.ParserTests.test_structure_declaration_and_literal) ... ok
 test_assignment_updates_nearest_existing_scope (test_runtime.EnvironmentTests.test_assignment_updates_nearest_existing_scope) ... ok
 test_define_and_get_local_variable (test_runtime.EnvironmentTests.test_define_and_get_local_variable) ... ok
@@ -46,15 +68,15 @@ test_missing_and_unknown_fields_are_rejected (test_runtime.StructureValueTests.t
 test_unknown_field_access_is_rejected (test_runtime.StructureValueTests.test_unknown_field_access_is_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 38 tests in 0.013s
+Ran 60 tests in 1.358s
 
 OK
 
 ZYM TEST SUMMARY
-total=38
-passed=38
+total=60
+passed=60
 failures=0
 errors=0
 skipped=0
-elapsed_seconds=0.012871
+elapsed_seconds=1.358509
 successful=True
