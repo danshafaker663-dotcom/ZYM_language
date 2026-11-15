@@ -1,0 +1,3 @@
+input "name=" -> name.
+input "city=" -> city.
+output name + "@" + city.

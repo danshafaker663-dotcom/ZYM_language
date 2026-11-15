@@ -1,0 +1,5 @@
+output null.
+output typeOf(null).
+output typeOf(true).
+output typeOf(42).
+output typeOf("text").

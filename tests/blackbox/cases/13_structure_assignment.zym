@@ -1,0 +1,4 @@
+declare Player { name, health }.
+set player := Player { name: "ZYM", health: 100 }.
+player.health := 75.
+output player.health.

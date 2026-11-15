@@ -1,0 +1,3 @@
+loop index in 2..5 {
+    output index.
+}

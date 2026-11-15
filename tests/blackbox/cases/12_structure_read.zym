@@ -1,0 +1,5 @@
+declare Point { x, y }.
+set point := Point { y: 8, x: 3 }.
+output point.x.
+output point.y.
+output point.

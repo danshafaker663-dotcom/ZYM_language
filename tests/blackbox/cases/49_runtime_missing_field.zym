@@ -1,0 +1,2 @@
+declare Point { x, y }.
+set point := Point { x: 1 }.

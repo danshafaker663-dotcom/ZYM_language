@@ -1,0 +1,4 @@
+set values := [10, 20, 30].
+output values.
+output values[0].
+output values[2].

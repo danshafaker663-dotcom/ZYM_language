@@ -1,0 +1,5 @@
+set offset := 12.
+makeFunction addOffset(value) {
+    return value + offset.
+}
+output addOffset(8).

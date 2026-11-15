@@ -1,0 +1,2 @@
+output length("ZYM").
+output length([4, 5, 6, 7]).

@@ -1,0 +1,5 @@
+set total := 1.
+{
+    total := total + 4.
+}
+output total.

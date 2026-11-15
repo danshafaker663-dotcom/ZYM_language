@@ -1,0 +1,288 @@
+{
+  "cases": [
+    {
+      "id": "01_integer_arithmetic",
+      "source": "tests/blackbox/cases/01_integer_arithmetic.zym",
+      "stdout": "12\n4\n32\n2\n1\n"
+    },
+    {
+      "id": "02_operator_precedence",
+      "source": "tests/blackbox/cases/02_operator_precedence.zym",
+      "stdout": "7\n9\ntrue\n"
+    },
+    {
+      "id": "03_negative_division",
+      "source": "tests/blackbox/cases/03_negative_division.zym",
+      "stdout": "-2\n-2\n-1\n1\n"
+    },
+    {
+      "id": "04_strings",
+      "source": "tests/blackbox/cases/04_strings.zym",
+      "stdout": "ZYM\nline1\nline2\ntab:\tend\n"
+    },
+    {
+      "id": "05_booleans",
+      "source": "tests/blackbox/cases/05_booleans.zym",
+      "stdout": "true\nfalse\ntrue\ntrue\ntrue\n"
+    },
+    {
+      "id": "06_short_circuit",
+      "source": "tests/blackbox/cases/06_short_circuit.zym",
+      "stdout": "false\ntrue\n"
+    },
+    {
+      "id": "07_null_and_types",
+      "source": "tests/blackbox/cases/07_null_and_types.zym",
+      "stdout": "null\nnull\nboolean\ninteger\nstring\n"
+    },
+    {
+      "id": "08_array_read",
+      "source": "tests/blackbox/cases/08_array_read.zym",
+      "stdout": "[10, 20, 30]\n10\n30\n"
+    },
+    {
+      "id": "09_array_assignment",
+      "source": "tests/blackbox/cases/09_array_assignment.zym",
+      "stdout": "[1, 99, 3]\n"
+    },
+    {
+      "id": "10_array_builtins",
+      "source": "tests/blackbox/cases/10_array_builtins.zym",
+      "stdout": "null\n[1, 2, 3]\n3\n[1, 2]\n"
+    },
+    {
+      "id": "11_length",
+      "source": "tests/blackbox/cases/11_length.zym",
+      "stdout": "3\n4\n"
+    },
+    {
+      "id": "12_structure_read",
+      "source": "tests/blackbox/cases/12_structure_read.zym",
+      "stdout": "3\n8\nPoint { x: 3, y: 8 }\n"
+    },
+    {
+      "id": "13_structure_assignment",
+      "source": "tests/blackbox/cases/13_structure_assignment.zym",
+      "stdout": "75\n"
+    },
+    {
+      "id": "14_when_branch",
+      "source": "tests/blackbox/cases/14_when_branch.zym",
+      "stdout": "excellent\n"
+    },
+    {
+      "id": "15_otherwise_when",
+      "source": "tests/blackbox/cases/15_otherwise_when.zym",
+      "stdout": "B\n"
+    },
+    {
+      "id": "16_while_loop",
+      "source": "tests/blackbox/cases/16_while_loop.zym",
+      "stdout": "3\n2\n1\n"
+    },
+    {
+      "id": "17_range_loop",
+      "source": "tests/blackbox/cases/17_range_loop.zym",
+      "stdout": "2\n3\n4\n"
+    },
+    {
+      "id": "18_empty_range",
+      "source": "tests/blackbox/cases/18_empty_range.zym",
+      "stdout": "done\n"
+    },
+    {
+      "id": "19_break",
+      "source": "tests/blackbox/cases/19_break.zym",
+      "stdout": "0\n1\n2\n"
+    },
+    {
+      "id": "20_continue",
+      "source": "tests/blackbox/cases/20_continue.zym",
+      "stdout": "1\n3\n"
+    },
+    {
+      "id": "21_function_call",
+      "source": "tests/blackbox/cases/21_function_call.zym",
+      "stdout": "15\n"
+    },
+    {
+      "id": "22_implicit_null_return",
+      "source": "tests/blackbox/cases/22_implicit_null_return.zym",
+      "stdout": "null\n"
+    },
+    {
+      "id": "23_recursion",
+      "source": "tests/blackbox/cases/23_recursion.zym",
+      "stdout": "720\n"
+    },
+    {
+      "id": "24_closure",
+      "source": "tests/blackbox/cases/24_closure.zym",
+      "stdout": "20\n"
+    },
+    {
+      "id": "25_array_reference",
+      "source": "tests/blackbox/cases/25_array_reference.zym",
+      "stdout": "[100, 2]\n"
+    },
+    {
+      "id": "26_structure_reference",
+      "source": "tests/blackbox/cases/26_structure_reference.zym",
+      "stdout": "88\n"
+    },
+    {
+      "id": "27_input_output",
+      "source": "tests/blackbox/cases/27_input_output.zym",
+      "stdin": "小明\n南京\n",
+      "stdout": "name=city=小明@南京\n"
+    },
+    {
+      "id": "28_to_int_and_text",
+      "source": "tests/blackbox/cases/28_to_int_and_text.zym",
+      "stdout": "-40\n-42\n12\n"
+    },
+    {
+      "id": "29_type_of",
+      "source": "tests/blackbox/cases/29_type_of.zym",
+      "stdout": "array\nstructure\nstructureType\nfunction\n"
+    },
+    {
+      "id": "30_rand_int_fixed",
+      "source": "tests/blackbox/cases/30_rand_int_fixed.zym",
+      "stdout": "5\n"
+    },
+    {
+      "id": "31_block_shadowing",
+      "source": "tests/blackbox/cases/31_block_shadowing.zym",
+      "stdout": "inner\nouter\n"
+    },
+    {
+      "id": "32_assign_outer_scope",
+      "source": "tests/blackbox/cases/32_assign_outer_scope.zym",
+      "stdout": "5\n"
+    },
+    {
+      "id": "33_comments_unicode",
+      "source": "tests/blackbox/cases/33_comments_unicode.zym",
+      "stdout": "96\n"
+    },
+    {
+      "id": "34_function_value",
+      "source": "tests/blackbox/cases/34_function_value.zym",
+      "stdout": "42\n"
+    },
+    {
+      "id": "35_equality",
+      "source": "tests/blackbox/cases/35_equality.zym",
+      "stdout": "true\ntrue\nfalse\ntrue\ntrue\n"
+    },
+    {
+      "id": "36_nested_arrays",
+      "source": "tests/blackbox/cases/36_nested_arrays.zym",
+      "stdout": "[[1, 2], [9, 4]]\n9\n"
+    },
+    {
+      "id": "37_lex_illegal_character",
+      "source": "tests/blackbox/cases/37_lex_illegal_character.zym",
+      "exit_code": 2,
+      "stderr_contains": ["LexError", "unexpected character"]
+    },
+    {
+      "id": "38_lex_unterminated_string",
+      "source": "tests/blackbox/cases/38_lex_unterminated_string.zym",
+      "exit_code": 2,
+      "stderr_contains": ["LexError", "unterminated string"]
+    },
+    {
+      "id": "39_parse_missing_dot",
+      "source": "tests/blackbox/cases/39_parse_missing_dot.zym",
+      "exit_code": 3,
+      "stderr_contains": ["ParseError", "expected '.'"]
+    },
+    {
+      "id": "40_parse_invalid_assignment",
+      "source": "tests/blackbox/cases/40_parse_invalid_assignment.zym",
+      "exit_code": 3,
+      "stderr_contains": ["ParseError", "invalid assignment target"]
+    },
+    {
+      "id": "41_semantic_break_outside",
+      "source": "tests/blackbox/cases/41_semantic_break_outside.zym",
+      "exit_code": 4,
+      "stderr_contains": ["SemanticError", "break", "inside a loop"]
+    },
+    {
+      "id": "42_semantic_continue_outside",
+      "source": "tests/blackbox/cases/42_semantic_continue_outside.zym",
+      "exit_code": 4,
+      "stderr_contains": ["SemanticError", "continue", "inside a loop"]
+    },
+    {
+      "id": "43_semantic_return_outside",
+      "source": "tests/blackbox/cases/43_semantic_return_outside.zym",
+      "exit_code": 4,
+      "stderr_contains": ["SemanticError", "return", "inside a function"]
+    },
+    {
+      "id": "44_semantic_duplicate_variable",
+      "source": "tests/blackbox/cases/44_semantic_duplicate_variable.zym",
+      "exit_code": 4,
+      "stderr_contains": ["SemanticError", "already declared"]
+    },
+    {
+      "id": "45_runtime_division_zero",
+      "source": "tests/blackbox/cases/45_runtime_division_zero.zym",
+      "exit_code": 5,
+      "stderr_contains": ["RuntimeError", "division by zero"]
+    },
+    {
+      "id": "46_runtime_index_bounds",
+      "source": "tests/blackbox/cases/46_runtime_index_bounds.zym",
+      "exit_code": 5,
+      "stderr_contains": ["RuntimeError", "out of bounds"]
+    },
+    {
+      "id": "47_runtime_type_mismatch",
+      "source": "tests/blackbox/cases/47_runtime_type_mismatch.zym",
+      "exit_code": 5,
+      "stderr_contains": ["RuntimeError", "requires two integers or two strings"]
+    },
+    {
+      "id": "48_runtime_wrong_arity",
+      "source": "tests/blackbox/cases/48_runtime_wrong_arity.zym",
+      "exit_code": 5,
+      "stderr_contains": ["RuntimeError", "expects 2 argument"]
+    },
+    {
+      "id": "49_runtime_missing_field",
+      "source": "tests/blackbox/cases/49_runtime_missing_field.zym",
+      "exit_code": 5,
+      "stderr_contains": ["RuntimeError", "missing field", "y"]
+    },
+    {
+      "id": "50_runtime_input_eof",
+      "source": "tests/blackbox/cases/50_runtime_input_eof.zym",
+      "stdout": "value=",
+      "exit_code": 5,
+      "stderr_contains": ["RuntimeError", "input reached end of file"]
+    },
+    {
+      "id": "51_runtime_unknown_field",
+      "source": "tests/blackbox/cases/51_runtime_unknown_field.zym",
+      "exit_code": 5,
+      "stderr_contains": ["RuntimeError", "has no field", "y"]
+    },
+    {
+      "id": "52_runtime_invalid_to_int",
+      "source": "tests/blackbox/cases/52_runtime_invalid_to_int.zym",
+      "exit_code": 5,
+      "stderr_contains": ["RuntimeError", "cannot convert"]
+    },
+    {
+      "id": "53_runtime_non_boolean_condition",
+      "source": "tests/blackbox/cases/53_runtime_non_boolean_condition.zym",
+      "exit_code": 5,
+      "stderr_contains": ["RuntimeError", "condition must be a boolean"]
+    }
+  ]
+}

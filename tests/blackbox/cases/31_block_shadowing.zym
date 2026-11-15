@@ -1,0 +1,6 @@
+set value := "outer".
+{
+    set value := "inner".
+    output value.
+}
+output value.

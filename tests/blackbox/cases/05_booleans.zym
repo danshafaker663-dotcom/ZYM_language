@@ -1,0 +1,5 @@
+output true.
+output false.
+output not false.
+output true and true.
+output false or true.

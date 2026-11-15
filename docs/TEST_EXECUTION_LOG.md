@@ -149,7 +149,30 @@
 ## 一键测试命令
 
 ```powershell
-python tests/run_tests.py
+python tests/run_all.py
 ```
 
-该命令会自动发现全部 `test_*.py`，输出详细结果，使用 `time.perf_counter()` 计时，并覆盖写入最新测试日志。
+该命令会先运行全部 `test_*.py`，再启动 53 个独立 ZYM 黑盒程序，并输出两个阶段的汇总。仅运行 Python 单元及集成测试可使用 `python tests/run_tests.py`；仅运行 ZYM 黑盒测试可使用 `python tests/run_blackbox.py`。
+
+## 记录 013：完整 ZYM 黑盒测试集
+
+- 日期：2026-11-15
+- 命令：`python tests/run_blackbox.py`
+- 测试程序：53 个 `.zym` 文件
+- 通过：53
+- 失败：0
+- `time.perf_counter()` 实测总耗时：6.501504 秒
+- 验证内容：stdout、stderr、退出码和进程超时
+- 覆盖范围：全部语言功能、7 个内置函数、词法错误、语法错误、语义错误和运行时错误
+- 原始日志：`tests/results/latest_blackbox.log`
+- 状态：通过
+
+## 记录 014：一键执行全部测试
+
+- 日期：2026-11-15
+- 命令：`python tests/run_all.py`
+- Python 单元及集成测试：60/60 通过
+- ZYM 黑盒测试：53/53 通过
+- 总计检查：113
+- 总耗时：7.998117 秒
+- 状态：通过

@@ -1,0 +1,6 @@
+set score := 91.
+when score >= 90 {
+    output "excellent".
+} otherwise {
+    output "other".
+}

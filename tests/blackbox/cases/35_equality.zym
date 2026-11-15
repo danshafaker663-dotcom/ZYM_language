@@ -1,0 +1,5 @@
+output 1 == 1.
+output 1 != 2.
+output 1 == true.
+output "a" == "a".
+output null == null.

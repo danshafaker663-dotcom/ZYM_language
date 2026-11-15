@@ -1,0 +1,6 @@
+makeFunction change(values) {
+    values[0] := 100.
+}
+set numbers := [1, 2].
+change(numbers).
+output numbers.

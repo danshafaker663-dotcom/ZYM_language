@@ -1,0 +1,4 @@
+set number := toInt("-42").
+output number + 2.
+output toText(number).
+output toInt("+12").

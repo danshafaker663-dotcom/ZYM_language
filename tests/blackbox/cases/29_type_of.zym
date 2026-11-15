@@ -1,0 +1,6 @@
+declare Item { value }.
+makeFunction identity(value) { return value. }
+output typeOf([1]).
+output typeOf(Item { value: 1 }).
+output typeOf(Item).
+output typeOf(identity).

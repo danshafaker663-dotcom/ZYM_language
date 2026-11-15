@@ -1,0 +1,7 @@
+declare Box { value }.
+makeFunction change(box) {
+    box.value := 88.
+}
+set box := Box { value: 1 }.
+change(box).
+output box.value.

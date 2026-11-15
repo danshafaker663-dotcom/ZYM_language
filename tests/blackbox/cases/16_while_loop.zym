@@ -1,0 +1,5 @@
+set count := 3.
+while count > 0 {
+    output count.
+    count := count - 1.
+}

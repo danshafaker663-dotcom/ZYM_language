@@ -229,8 +229,10 @@ python -m zym --version
 运行全部黑盒测试：
 
 ```powershell
-python tests/run_tests.py
+python tests/run_all.py
 ```
+
+该命令会执行 60 项单元及集成测试和 53 个由 ZYM 编写的子进程黑盒测试，并生成最新测试日志。只运行黑盒测试可使用 `python tests/run_blackbox.py`。
 
 执行性能测试：
 

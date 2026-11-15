@@ -1,0 +1,4 @@
+makeFunction doNothing() {
+    set value := 1.
+}
+output doNothing().

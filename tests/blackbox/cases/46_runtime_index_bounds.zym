@@ -1,0 +1,2 @@
+set values := [1].
+output values[1].

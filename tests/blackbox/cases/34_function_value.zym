@@ -1,0 +1,5 @@
+makeFunction multiply(left, right) {
+    return left * right.
+}
+set operation := multiply.
+output operation(6, 7).

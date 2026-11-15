@@ -1,0 +1,4 @@
+makeFunction add(left, right) {
+    return left + right.
+}
+output add(7, 8).

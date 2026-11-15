@@ -1,0 +1,6 @@
+set values := [1].
+output push(values, 2).
+push(values, 3).
+output values.
+output pop(values).
+output values.

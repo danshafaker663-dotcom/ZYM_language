@@ -1,0 +1,6 @@
+loop index in 0..5 {
+    when index % 2 == 0 {
+        continue.
+    }
+    output index.
+}

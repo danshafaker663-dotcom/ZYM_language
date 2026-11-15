@@ -1,0 +1,4 @@
+loop index in 5..2 {
+    output index.
+}
+output "done".

@@ -1,0 +1,6 @@
+loop index in 0..10 {
+    when index == 3 {
+        break.
+    }
+    output index.
+}
