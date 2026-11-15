@@ -106,7 +106,7 @@ push(values, 99).
 
 ### 5.5 结构类型
 
-`declare` 声明一种结构类型及其固定字段。创建实例时必须为所有字段赋值，且不得提供未知字段。
+`declare` 声明一种结构类型及其固定字段。结构类型至少包含一个字段。创建实例时必须为所有字段赋值，且不得提供未知字段。
 
 ```zym
 declare Student {
@@ -352,7 +352,7 @@ declaration    = structure_decl
                | function_decl
                | statement ;
 
-structure_decl = "declare" IDENT "{" field_list? "}" "." ;
+structure_decl = "declare" IDENT "{" field_list "}" "." ;
 field_list     = IDENT ("," IDENT)* ","? ;
 
 function_decl  = "makeFunction" IDENT "(" parameters? ")" block ;
@@ -413,7 +413,7 @@ primary        = INTEGER
                | "(" expression ")" ;
 
 array_literal  = "[" arguments? "]" ;
-structure_literal = IDENT "{" field_values? "}" ;
+structure_literal = IDENT "{" field_values "}" ;
 field_values   = field_value ("," field_value)* ","? ;
 field_value    = IDENT ":" expression ;
 ```

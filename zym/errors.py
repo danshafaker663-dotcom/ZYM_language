@@ -27,3 +27,27 @@ class LexError(ZymError):
             f"{self.filename}:{self.line}:{self.column}: "
             f"LexError: {self.message}"
         )
+
+
+class ParseError(ZymError):
+    """Raised when a valid token sequence does not match ZYM grammar."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        filename: str,
+        line: int,
+        column: int,
+    ) -> None:
+        super().__init__(message)
+        self.message = message
+        self.filename = filename
+        self.line = line
+        self.column = column
+
+    def __str__(self) -> str:
+        return (
+            f"{self.filename}:{self.line}:{self.column}: "
+            f"ParseError: {self.message}"
+        )
