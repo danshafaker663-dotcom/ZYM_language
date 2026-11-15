@@ -288,9 +288,7 @@ class Parser:
                 index = self._expression()
                 self._consume(TokenType.RIGHT_BRACKET, "expected ']' after index")
                 expression = IndexAccess(expression, bracket, index)
-            elif self._check(TokenType.DOT) and self._check_at(
-                1, TokenType.IDENTIFIER
-            ):
+            elif self._looks_like_field_access():
                 self._advance()
                 name = self._consume(
                     TokenType.IDENTIFIER,
@@ -301,6 +299,18 @@ class Parser:
                 break
 
         return expression
+
+    def _looks_like_field_access(self) -> bool:
+        """Distinguish adjacent ``value.field`` from a statement-ending dot."""
+
+        if not (
+            self._check(TokenType.DOT)
+            and self._check_at(1, TokenType.IDENTIFIER)
+        ):
+            return False
+        dot = self._peek()
+        field = self.tokens[self.current + 1]
+        return field.line == dot.line and field.column == dot.column + 1
 
     def _finish_call(self, callee: Expr, paren: Token) -> Call:
         arguments: list[Expr] = []

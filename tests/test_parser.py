@@ -31,6 +31,11 @@ def parse(source: str, filename: str = "<test>"):
 
 
 class ParserTests(unittest.TestCase):
+    def test_statement_dot_before_identifier_on_next_line(self) -> None:
+        program = parse("output value.\nvalue := 2.")
+        self.assertIsInstance(program.declarations[0], OutputStatement)
+        self.assertIsInstance(program.declarations[1], Assignment)
+
     def test_operator_precedence(self) -> None:
         program = parse("set result := 1 + 2 * 3.")
         declaration = program.declarations[0]
