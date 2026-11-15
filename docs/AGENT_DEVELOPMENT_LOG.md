@@ -157,6 +157,53 @@ Agent 提供的内容必须经过学生检查，不能直接视为正确结果�
 - 验证：运行字节码编译、全部单元测试和 `git diff --check`。
 - 对应提交：`feat: define ZYM abstract syntax tree nodes`（哈希以 Git 历史为准）。
 
+### 记录 009：实现递归下降语法分析器
+
+- 日期：2026-11-02
+- 任务：将 Lexer 输出的 Token 序列转换为完整 AST。
+- 学生输入：审核并批准 AST 设计后，要求提交并继续 Parser 阶段。
+- Agent 辅助：
+  - 实现声明和语句的递归下降解析。
+  - 按优先级解析逻辑、比较、算术、单目和后缀表达式。
+  - 解析数组、结构实例、函数调用、索引和字段访问。
+  - 验证赋值目标只能是变量、数组元素或结构字段。
+  - 实现带文件名、行号和列号的 `ParseError`。
+  - 解决条件代码块与结构字面量的 `{}` 歧义：结构类型和实例至少包含一个字段，并通过 `标识符 { 字段名 :` 识别结构实例。
+  - 添加 Parser 单元测试，并使用完整语法示例进行集成解析。
+- 修改文件：
+  - `zym/parser.py`
+  - `zym/errors.py`
+  - `tests/test_parser.py`
+  - `docs/SYNTAX.md`
+  - `docs/AGENT_DEVELOPMENT_LOG.md`
+- 验证：运行字节码编译、全部单元测试、完整语法示例解析和 `git diff --check`。
+- 对应提交：`49437f3 feat: implement recursive descent parser`。
+
+### 记录 010：增加测试日志和前端性能基线
+
+- 日期：2026-11-02
+- 任务：为自动测试增加可提交的执行日志，并使用实际计时结果验证前端优化。
+- 学生输入：询问是否进行了测试和性能优化，建议使用 `time` 计时，并要求测试具有类似开发记录的日志。
+- Agent 辅助：
+  - 新增一键测试入口，使用 `time.perf_counter()` 测量测试总耗时。
+  - 自动记录时间、Git 哈希、工作区状态、Python 版本、平台和测试统计。
+  - 新增 Lexer + Parser 前端基准工具，执行预热、7 轮重复测试并使用中位数报告结果。
+  - 记录 Parser 首轮测试发现的句点歧义及修复过程。
+  - 根据基准结果，将 Lexer 内重复创建的标点和转义字典移为模块常量。
+- 测试结果：29 项测试全部通过，测试总耗时 0.005502 秒。
+- 性能结果：中位解析耗时降低 15.95%，中位吞吐量提高 18.98%。
+- 修改文件：
+  - `tests/run_tests.py`
+  - `tests/results/latest_test.log`
+  - `benchmark/frontend_benchmark.py`
+  - `benchmark/results/frontend_before_optimization.log`
+  - `benchmark/results/frontend_after_optimization.log`
+  - `docs/TEST_EXECUTION_LOG.md`
+  - `docs/FRONTEND_PERFORMANCE_LOG.md`
+  - `zym/lexer.py`
+  - `docs/AGENT_DEVELOPMENT_LOG.md`
+- 对应提交：`test: add automated test and performance logs`（哈希以 Git 历史为准）。
+
 ---
 
 ## 4. 后续记录要求

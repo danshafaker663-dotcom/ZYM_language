@@ -1,0 +1,18 @@
+ZYM FRONTEND PERFORMANCE BASELINE
+timestamp=2026-11-02T09:39:32+08:00
+git_commit=e236bfd77259b9245fa39dec1a2ecb4e10d065a7
+git_dirty=true
+python=3.12.14
+platform=Windows-11-10.0.26200-SP0
+source=D:\学习\网存作业\examples\syntax_tour.zym
+source_characters=724
+tokens_per_parse=162
+declarations_per_parse=8
+warmup_iterations=100
+rounds=7
+iterations_per_round=1000
+round_seconds=1.036971,1.024875,1.027770,1.018468,1.016307,1.020101,1.020273
+minimum_ms_per_parse=1.016307
+median_ms_per_parse=1.020273
+maximum_ms_per_parse=1.036971
+median_parses_per_second=980.13

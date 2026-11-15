@@ -6,6 +6,28 @@ from zym.errors import LexError
 from zym.token import KEYWORDS, Token, TokenType
 
 
+_SINGLE_CHARACTER_TOKENS: dict[str, TokenType] = {
+    "(": TokenType.LEFT_PAREN,
+    ")": TokenType.RIGHT_PAREN,
+    "{": TokenType.LEFT_BRACE,
+    "}": TokenType.RIGHT_BRACE,
+    "[": TokenType.LEFT_BRACKET,
+    "]": TokenType.RIGHT_BRACKET,
+    ",": TokenType.COMMA,
+    "+": TokenType.PLUS,
+    "*": TokenType.STAR,
+    "/": TokenType.SLASH,
+    "%": TokenType.PERCENT,
+}
+
+_STRING_ESCAPES = {
+    "n": "\n",
+    "t": "\t",
+    '"': '"',
+    "\\": "\\",
+}
+
+
 class Lexer:
     """Convert ZYM source text into a sequence of tokens."""
 
@@ -44,21 +66,7 @@ class Lexer:
     def _scan_token(self) -> None:
         char = self._advance()
 
-        single_character_tokens = {
-            "(": TokenType.LEFT_PAREN,
-            ")": TokenType.RIGHT_PAREN,
-            "{": TokenType.LEFT_BRACE,
-            "}": TokenType.RIGHT_BRACE,
-            "[": TokenType.LEFT_BRACKET,
-            "]": TokenType.RIGHT_BRACKET,
-            ",": TokenType.COMMA,
-            "+": TokenType.PLUS,
-            "*": TokenType.STAR,
-            "/": TokenType.SLASH,
-            "%": TokenType.PERCENT,
-        }
-
-        token_type = single_character_tokens.get(char)
+        token_type = _SINGLE_CHARACTER_TOKENS.get(char)
         if token_type is not None:
             self._add_token(token_type)
             return
@@ -150,15 +158,9 @@ class Lexer:
                 )
 
             escape = self._advance()
-            escape_values = {
-                "n": "\n",
-                "t": "\t",
-                '"': '"',
-                "\\": "\\",
-            }
-            if escape not in escape_values:
+            if escape not in _STRING_ESCAPES:
                 self._raise_error(f"unknown escape sequence '\\{escape}'")
-            value.append(escape_values[escape])
+            value.append(_STRING_ESCAPES[escape])
 
         self._raise_error(
             "unterminated string literal",

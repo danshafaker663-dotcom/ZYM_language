@@ -1,0 +1,51 @@
+ZYM AUTOMATED TEST LOG
+timestamp=2026-11-15T13:21:34+08:00
+git_commit=e236bfd77259b9245fa39dec1a2ecb4e10d065a7
+git_dirty=true
+python=3.12.4
+platform=Windows-11-10.0.26200-SP0
+command=python.exe tests/run_tests.py
+
+test_binary_expression_tree (test_ast_nodes.AstNodeTests.test_binary_expression_tree) ... ok
+test_function_declaration (test_ast_nodes.AstNodeTests.test_function_declaration) ... ok
+test_nodes_are_immutable (test_ast_nodes.AstNodeTests.test_nodes_are_immutable) ... ok
+test_otherwise_when_uses_nested_if_node (test_ast_nodes.AstNodeTests.test_otherwise_when_uses_nested_if_node) ... ok
+test_program_contains_declarations (test_ast_nodes.AstNodeTests.test_program_contains_declarations) ... ok
+test_variable_declaration (test_ast_nodes.AstNodeTests.test_variable_declaration) ... ok
+test_all_keywords (test_lexer.LexerTests.test_all_keywords) ... ok
+test_comment_and_source_position (test_lexer.LexerTests.test_comment_and_source_position) ... ok
+test_eof_position (test_lexer.LexerTests.test_eof_position) ... ok
+test_error_contains_source_position (test_lexer.LexerTests.test_error_contains_source_position) ... ok
+test_integer_literal (test_lexer.LexerTests.test_integer_literal) ... ok
+test_punctuation_and_operators (test_lexer.LexerTests.test_punctuation_and_operators) ... ok
+test_single_equal_is_invalid (test_lexer.LexerTests.test_single_equal_is_invalid) ... ok
+test_string_escapes (test_lexer.LexerTests.test_string_escapes) ... ok
+test_unexpected_character (test_lexer.LexerTests.test_unexpected_character) ... ok
+test_unicode_identifier (test_lexer.LexerTests.test_unicode_identifier) ... ok
+test_unknown_escape_sequence (test_lexer.LexerTests.test_unknown_escape_sequence) ... ok
+test_unterminated_string (test_lexer.LexerTests.test_unterminated_string) ... ok
+test_variable_declaration (test_lexer.LexerTests.test_variable_declaration) ... ok
+test_boolean_null_and_array_literals (test_parser.ParserTests.test_boolean_null_and_array_literals) ... ok
+test_complete_syntax_tour (test_parser.ParserTests.test_complete_syntax_tour) ... ok
+test_control_flow_and_assignment (test_parser.ParserTests.test_control_flow_and_assignment) ... ok
+test_empty_structure_declaration_is_rejected (test_parser.ParserTests.test_empty_structure_declaration_is_rejected) ... ok
+test_invalid_assignment_target (test_parser.ParserTests.test_invalid_assignment_target) ... ok
+test_missing_statement_dot_reports_position (test_parser.ParserTests.test_missing_statement_dot_reports_position) ... ok
+test_operator_precedence (test_parser.ParserTests.test_operator_precedence) ... ok
+test_otherwise_when_is_nested_if (test_parser.ParserTests.test_otherwise_when_is_nested_if) ... ok
+test_postfix_expression_chain (test_parser.ParserTests.test_postfix_expression_chain) ... ok
+test_structure_declaration_and_literal (test_parser.ParserTests.test_structure_declaration_and_literal) ... ok
+
+----------------------------------------------------------------------
+Ran 29 tests in 0.011s
+
+OK
+
+ZYM TEST SUMMARY
+total=29
+passed=29
+failures=0
+errors=0
+skipped=0
+elapsed_seconds=0.010795
+successful=True
