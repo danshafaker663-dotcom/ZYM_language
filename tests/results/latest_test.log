@@ -1,6 +1,6 @@
 ZYM AUTOMATED TEST LOG
-timestamp=2026-11-15T13:21:34+08:00
-git_commit=e236bfd77259b9245fa39dec1a2ecb4e10d065a7
+timestamp=2026-11-15T13:26:56+08:00
+git_commit=3e89a87b83a5fb06a83e8455606f73fb1da330a3
 git_dirty=true
 python=3.12.4
 platform=Windows-11-10.0.26200-SP0
@@ -35,17 +35,26 @@ test_operator_precedence (test_parser.ParserTests.test_operator_precedence) ... 
 test_otherwise_when_is_nested_if (test_parser.ParserTests.test_otherwise_when_is_nested_if) ... ok
 test_postfix_expression_chain (test_parser.ParserTests.test_postfix_expression_chain) ... ok
 test_structure_declaration_and_literal (test_parser.ParserTests.test_structure_declaration_and_literal) ... ok
+test_assignment_updates_nearest_existing_scope (test_runtime.EnvironmentTests.test_assignment_updates_nearest_existing_scope) ... ok
+test_define_and_get_local_variable (test_runtime.EnvironmentTests.test_define_and_get_local_variable) ... ok
+test_duplicate_local_declaration_is_rejected (test_runtime.EnvironmentTests.test_duplicate_local_declaration_is_rejected) ... ok
+test_local_declaration_shadows_enclosing_name (test_runtime.EnvironmentTests.test_local_declaration_shadows_enclosing_name) ... ok
+test_nested_scope_reads_enclosing_variable (test_runtime.EnvironmentTests.test_nested_scope_reads_enclosing_variable) ... ok
+test_undefined_name_reports_source_position (test_runtime.EnvironmentTests.test_undefined_name_reports_source_position) ... ok
+test_create_read_and_update_structure (test_runtime.StructureValueTests.test_create_read_and_update_structure) ... ok
+test_missing_and_unknown_fields_are_rejected (test_runtime.StructureValueTests.test_missing_and_unknown_fields_are_rejected) ... ok
+test_unknown_field_access_is_rejected (test_runtime.StructureValueTests.test_unknown_field_access_is_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 29 tests in 0.011s
+Ran 38 tests in 0.013s
 
 OK
 
 ZYM TEST SUMMARY
-total=29
-passed=29
+total=38
+passed=38
 failures=0
 errors=0
 skipped=0
-elapsed_seconds=0.010795
+elapsed_seconds=0.012871
 successful=True

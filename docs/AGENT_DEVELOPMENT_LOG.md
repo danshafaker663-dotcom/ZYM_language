@@ -204,6 +204,29 @@ Agent 提供的内容必须经过学生检查，不能直接视为正确结果�
   - `docs/AGENT_DEVELOPMENT_LOG.md`
 - 对应提交：`test: add automated test and performance logs`（哈希以 Git 历史为准）。
 
+### 记录 011：实现运行时作用域和结构值
+
+- 日期：2026-11-15
+- 任务：为树遍历解释器建立变量作用域和结构实例的数据模型。
+- 学生输入：要求继续下一阶段，代码先由学生审核，审核后明确要求提交。
+- Agent 辅助：
+  - 实现带父级链接的 `Environment`，支持声明、逐层查找和就近赋值。
+  - 实现全局内置名称注册接口。
+  - 实现 `StructureType` 和可变的 `StructureInstance`。
+  - 检查重复声明、未定义名称、缺少字段、未知字段和非法字段访问。
+  - 增加带源码位置的 `SemanticError` 和 `RuntimeError` 输出。
+  - 新增 9 项运行时单元测试。
+  - 首轮测试发现运行时代码错误地假定 Token 保存文件名；根据现有接口改为由 Environment 和 StructureType 保存文件名。
+- 修改文件：
+  - `zym/runtime.py`
+  - `zym/errors.py`
+  - `tests/test_runtime.py`
+  - `tests/results/latest_test.log`
+  - `docs/TEST_EXECUTION_LOG.md`
+  - `docs/AGENT_DEVELOPMENT_LOG.md`
+- 验证：38 项测试全部通过，并运行 Python 编译检查和 `git diff --check`。
+- 对应提交：`feat: add runtime environments and structure values`（哈希以 Git 历史为准）。
+
 ---
 
 ## 4. 后续记录要求

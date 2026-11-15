@@ -51,3 +51,37 @@ class ParseError(ZymError):
             f"{self.filename}:{self.line}:{self.column}: "
             f"ParseError: {self.message}"
         )
+
+
+class SemanticError(ZymError):
+    """Raised when valid syntax violates a static ZYM language rule."""
+
+    def __init__(self, message: str, *, filename: str, line: int, column: int) -> None:
+        super().__init__(message)
+        self.message = message
+        self.filename = filename
+        self.line = line
+        self.column = column
+
+    def __str__(self) -> str:
+        return (
+            f"{self.filename}:{self.line}:{self.column}: "
+            f"SemanticError: {self.message}"
+        )
+
+
+class ZymRuntimeError(ZymError):
+    """Raised when an operation fails while a ZYM program is running."""
+
+    def __init__(self, message: str, *, filename: str, line: int, column: int) -> None:
+        super().__init__(message)
+        self.message = message
+        self.filename = filename
+        self.line = line
+        self.column = column
+
+    def __str__(self) -> str:
+        return (
+            f"{self.filename}:{self.line}:{self.column}: "
+            f"RuntimeError: {self.message}"
+        )
