@@ -10,6 +10,7 @@ build/
 benchmark/results/*.csv
 benchmark/results/*.json
 !benchmark/results/runtime_comparison.csv
+!benchmark/results/runtime_comparison_before_optimization.csv
 presentation/rendered/
 tmp/
 

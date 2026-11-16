@@ -1,6 +1,6 @@
 ZYM AUTOMATED TEST LOG
-timestamp=2026-11-15T14:00:11+08:00
-git_commit=73acbdef5450d8cca82b1c86769afdcfa44a585e
+timestamp=2026-11-16T10:57:05+08:00
+git_commit=cefe45c07933753f335f090afb003fa476d7dde3
 git_dirty=true
 python=3.12.4
 platform=Windows-11-10.0.26200-SP0
@@ -68,7 +68,7 @@ test_missing_and_unknown_fields_are_rejected (test_runtime.StructureValueTests.t
 test_unknown_field_access_is_rejected (test_runtime.StructureValueTests.test_unknown_field_access_is_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 60 tests in 1.202s
+Ran 60 tests in 1.417s
 
 OK
 
@@ -78,5 +78,5 @@ passed=60
 failures=0
 errors=0
 skipped=0
-elapsed_seconds=1.202100
+elapsed_seconds=1.417219
 successful=True

@@ -80,45 +80,67 @@ class Interpreter:
         self.environment = self.globals
         self._loop_depth = 0
         self._function_depth = 0
+        self._block_scope_cache: dict[int, bool] = {}
         self._install_builtins()
 
     def interpret(self, program: ast.Program) -> None:
         """Execute every top-level declaration in source order."""
 
+        self._block_scope_cache.clear()
         for declaration in program.declarations:
             self._execute(declaration)
 
     def _execute(self, statement: ast.Stmt) -> None:
-        if isinstance(statement, ast.Block):
-            self._execute_block(
-                statement.declarations,
-                Environment(self.environment),
-            )
+        statement_type = type(statement)
+
+        if statement_type is ast.Block:
+            cache_key = id(statement)
+            try:
+                needs_scope = self._block_scope_cache[cache_key]
+            except KeyError:
+                declaration_types = (
+                    ast.VariableDeclaration,
+                    ast.InputStatement,
+                    ast.StructureDeclaration,
+                    ast.FunctionDeclaration,
+                )
+                needs_scope = any(
+                    type(declaration) in declaration_types
+                    for declaration in statement.declarations
+                )
+                self._block_scope_cache[cache_key] = needs_scope
+            if needs_scope:
+                self._execute_block(
+                    statement.declarations,
+                    Environment(self.environment),
+                )
+            else:
+                self._execute_declarations(statement.declarations)
             return
 
-        if isinstance(statement, ast.ExpressionStatement):
+        if statement_type is ast.ExpressionStatement:
             self._evaluate(statement.expression)
             return
 
-        if isinstance(statement, ast.VariableDeclaration):
+        if statement_type is ast.VariableDeclaration:
             value = self._evaluate(statement.initializer)
             self.environment.define(statement.name, value)
             return
 
-        if isinstance(statement, ast.Assignment):
+        if statement_type is ast.Assignment:
             self._execute_assignment(statement)
             return
 
-        if isinstance(statement, ast.OutputStatement):
+        if statement_type is ast.OutputStatement:
             value = self._evaluate(statement.expression)
             self.output_stream.write(f"{self.format_value(value)}\n")
             return
 
-        if isinstance(statement, ast.InputStatement):
+        if statement_type is ast.InputStatement:
             self._execute_input(statement)
             return
 
-        if isinstance(statement, ast.IfStatement):
+        if statement_type is ast.IfStatement:
             condition = self._evaluate(statement.condition)
             self._require_boolean(condition, statement.keyword, "when condition")
             if condition:
@@ -127,15 +149,15 @@ class Interpreter:
                 self._execute(statement.else_branch)
             return
 
-        if isinstance(statement, ast.WhileStatement):
+        if statement_type is ast.WhileStatement:
             self._execute_while(statement)
             return
 
-        if isinstance(statement, ast.LoopStatement):
+        if statement_type is ast.LoopStatement:
             self._execute_loop(statement)
             return
 
-        if isinstance(statement, ast.BreakStatement):
+        if statement_type is ast.BreakStatement:
             if self._loop_depth == 0:
                 raise self._semantic_error(
                     statement.keyword,
@@ -143,7 +165,7 @@ class Interpreter:
                 )
             raise _BreakSignal()
 
-        if isinstance(statement, ast.ContinueStatement):
+        if statement_type is ast.ContinueStatement:
             if self._loop_depth == 0:
                 raise self._semantic_error(
                     statement.keyword,
@@ -151,7 +173,7 @@ class Interpreter:
                 )
             raise _ContinueSignal()
 
-        if isinstance(statement, ast.ReturnStatement):
+        if statement_type is ast.ReturnStatement:
             if self._function_depth == 0:
                 raise self._semantic_error(
                     statement.keyword,
@@ -160,7 +182,7 @@ class Interpreter:
             value = None if statement.value is None else self._evaluate(statement.value)
             raise _ReturnSignal(value)
 
-        if isinstance(statement, ast.StructureDeclaration):
+        if statement_type is ast.StructureDeclaration:
             field_names = tuple(field.lexeme for field in statement.fields)
             if len(set(field_names)) != len(field_names):
                 raise self._semantic_error(
@@ -175,7 +197,7 @@ class Interpreter:
             self.environment.define(statement.name, structure_type)
             return
 
-        if isinstance(statement, ast.FunctionDeclaration):
+        if statement_type is ast.FunctionDeclaration:
             parameter_names = [parameter.lexeme for parameter in statement.parameters]
             if len(set(parameter_names)) != len(parameter_names):
                 raise self._semantic_error(
@@ -196,26 +218,30 @@ class Interpreter:
         previous = self.environment
         try:
             self.environment = environment
-            for declaration in declarations:
-                self._execute(declaration)
+            self._execute_declarations(declarations)
         finally:
             self.environment = previous
+
+    def _execute_declarations(self, declarations: tuple[ast.Stmt, ...]) -> None:
+        for declaration in declarations:
+            self._execute(declaration)
 
     def _execute_assignment(self, statement: ast.Assignment) -> None:
         value = self._evaluate(statement.value)
         target = statement.target
+        target_type = type(target)
 
-        if isinstance(target, ast.Variable):
+        if target_type is ast.Variable:
             self.environment.assign(target.name, value)
             return
 
-        if isinstance(target, ast.IndexAccess):
+        if target_type is ast.IndexAccess:
             collection = self._evaluate(target.collection)
             index = self._evaluate(target.index)
             self._set_index(collection, index, value, target.bracket)
             return
 
-        if isinstance(target, ast.FieldAccess):
+        if target_type is ast.FieldAccess:
             instance = self._evaluate(target.object)
             if not isinstance(instance, StructureInstance):
                 raise self._runtime_error(
@@ -271,53 +297,55 @@ class Interpreter:
 
         loop_environment = Environment(self.environment)
         loop_environment.define(statement.variable, start)
+        previous_environment = self.environment
+        self.environment = loop_environment
         self._loop_depth += 1
         try:
             for current in range(start, end):
                 loop_environment.assign(statement.variable, current)
                 try:
-                    self._execute_block(
-                        statement.body.declarations,
-                        Environment(loop_environment),
-                    )
+                    self._execute(statement.body)
                 except _ContinueSignal:
                     continue
                 except _BreakSignal:
                     break
         finally:
             self._loop_depth -= 1
+            self.environment = previous_environment
 
     def _evaluate(self, expression: ast.Expr) -> Any:
-        if isinstance(expression, ast.Literal):
+        expression_type = type(expression)
+
+        if expression_type is ast.Literal:
             return expression.value
 
-        if isinstance(expression, ast.Variable):
+        if expression_type is ast.Variable:
             return self.environment.get(expression.name)
 
-        if isinstance(expression, ast.Grouping):
+        if expression_type is ast.Grouping:
             return self._evaluate(expression.expression)
 
-        if isinstance(expression, ast.Unary):
+        if expression_type is ast.Unary:
             return self._evaluate_unary(expression)
 
-        if isinstance(expression, ast.Binary):
+        if expression_type is ast.Binary:
             return self._evaluate_binary(expression)
 
-        if isinstance(expression, ast.Logical):
+        if expression_type is ast.Logical:
             return self._evaluate_logical(expression)
 
-        if isinstance(expression, ast.ArrayLiteral):
+        if expression_type is ast.ArrayLiteral:
             return [self._evaluate(element) for element in expression.elements]
 
-        if isinstance(expression, ast.StructureLiteral):
+        if expression_type is ast.StructureLiteral:
             return self._evaluate_structure_literal(expression)
 
-        if isinstance(expression, ast.IndexAccess):
+        if expression_type is ast.IndexAccess:
             collection = self._evaluate(expression.collection)
             index = self._evaluate(expression.index)
             return self._get_index(collection, index, expression.bracket)
 
-        if isinstance(expression, ast.FieldAccess):
+        if expression_type is ast.FieldAccess:
             instance = self._evaluate(expression.object)
             if not isinstance(instance, StructureInstance):
                 raise self._runtime_error(
@@ -326,7 +354,7 @@ class Interpreter:
                 )
             return instance.get(expression.name)
 
-        if isinstance(expression, ast.Call):
+        if expression_type is ast.Call:
             return self._evaluate_call(expression)
 
         raise TypeError(f"unsupported expression node: {type(expression).__name__}")
@@ -345,13 +373,14 @@ class Interpreter:
         left = self._evaluate(expression.left)
         right = self._evaluate(expression.right)
         operator = expression.operator
+        operator_type = operator.type
 
-        if operator.type is TokenType.EQUAL_EQUAL:
+        if operator_type is TokenType.EQUAL_EQUAL:
             return self._values_equal(left, right)
-        if operator.type is TokenType.BANG_EQUAL:
+        if operator_type is TokenType.BANG_EQUAL:
             return not self._values_equal(left, right)
 
-        if operator.type is TokenType.PLUS:
+        if operator_type is TokenType.PLUS:
             if type(left) is int and type(right) is int:
                 return left + right
             if isinstance(left, str) and isinstance(right, str):
@@ -361,42 +390,32 @@ class Interpreter:
                 "'+' requires two integers or two strings",
             )
 
-        if operator.type in {
-            TokenType.MINUS,
-            TokenType.STAR,
-            TokenType.SLASH,
-            TokenType.PERCENT,
-            TokenType.LESS,
-            TokenType.LESS_EQUAL,
-            TokenType.GREATER,
-            TokenType.GREATER_EQUAL,
-        }:
-            self._require_integer(left, operator, f"'{operator.lexeme}' left operand")
-            self._require_integer(right, operator, f"'{operator.lexeme}' right operand")
+        self._require_integer(left, operator, f"'{operator.lexeme}' left operand")
+        self._require_integer(right, operator, f"'{operator.lexeme}' right operand")
 
-        if operator.type is TokenType.MINUS:
+        if operator_type is TokenType.MINUS:
             return left - right
-        if operator.type is TokenType.STAR:
+        if operator_type is TokenType.STAR:
             return left * right
-        if operator.type is TokenType.SLASH:
+        if operator_type is TokenType.SLASH:
             if right == 0:
                 raise self._runtime_error(operator, "division by zero")
             return self._truncating_division(left, right)
-        if operator.type is TokenType.PERCENT:
+        if operator_type is TokenType.PERCENT:
             if right == 0:
                 raise self._runtime_error(operator, "remainder by zero")
             quotient = self._truncating_division(left, right)
             return left - quotient * right
-        if operator.type is TokenType.LESS:
+        if operator_type is TokenType.LESS:
             return left < right
-        if operator.type is TokenType.LESS_EQUAL:
+        if operator_type is TokenType.LESS_EQUAL:
             return left <= right
-        if operator.type is TokenType.GREATER:
+        if operator_type is TokenType.GREATER:
             return left > right
-        if operator.type is TokenType.GREATER_EQUAL:
+        if operator_type is TokenType.GREATER_EQUAL:
             return left >= right
 
-        raise TypeError(f"unsupported binary operator: {operator.type}")
+        raise TypeError(f"unsupported binary operator: {operator_type}")
 
     def _evaluate_logical(self, expression: ast.Logical) -> bool:
         left = self._evaluate(expression.left)
@@ -432,15 +451,20 @@ class Interpreter:
     def _evaluate_call(self, expression: ast.Call) -> Any:
         callee = self._evaluate(expression.callee)
         arguments = [self._evaluate(argument) for argument in expression.arguments]
-        if not isinstance(callee, (NativeFunction, UserFunction)):
+        callee_type = type(callee)
+        if callee_type is NativeFunction:
+            arity = callee.parameter_count
+        elif callee_type is UserFunction:
+            arity = len(callee.declaration.parameters)
+        else:
             raise self._runtime_error(expression.paren, "value is not callable")
-        if len(arguments) != callee.arity:
+        if len(arguments) != arity:
             raise self._runtime_error(
                 expression.paren,
-                f"{callee.name} expects {callee.arity} argument(s), got {len(arguments)}",
+                f"{callee.name} expects {arity} argument(s), got {len(arguments)}",
             )
-        if isinstance(callee, NativeFunction):
-            return callee.call(expression.paren, arguments)
+        if callee_type is NativeFunction:
+            return callee.implementation(expression.paren, arguments)
         return self._call_user_function(callee, arguments)
 
     def _call_user_function(

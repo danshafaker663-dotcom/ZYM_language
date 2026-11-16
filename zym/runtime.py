@@ -46,10 +46,11 @@ class Environment:
     def get(self, name: Token) -> Any:
         """Look up a name from the nearest lexical scope outwards."""
 
-        if name.lexeme in self._values:
-            return self._values[name.lexeme]
-        if self.enclosing is not None:
-            return self.enclosing.get(name)
+        environment: Environment | None = self
+        while environment is not None:
+            if name.lexeme in environment._values:
+                return environment._values[name.lexeme]
+            environment = environment.enclosing
         raise ZymRuntimeError(
             f"undefined name '{name.lexeme}'",
             filename=self.filename,
@@ -60,12 +61,12 @@ class Environment:
     def assign(self, name: Token, value: Any) -> None:
         """Update the nearest existing binding for a name."""
 
-        if name.lexeme in self._values:
-            self._values[name.lexeme] = value
-            return
-        if self.enclosing is not None:
-            self.enclosing.assign(name, value)
-            return
+        environment: Environment | None = self
+        while environment is not None:
+            if name.lexeme in environment._values:
+                environment._values[name.lexeme] = value
+                return
+            environment = environment.enclosing
         raise ZymRuntimeError(
             f"undefined name '{name.lexeme}'",
             filename=self.filename,

@@ -1,0 +1,16 @@
+ZYM VS PYTHON PRIME-SIEVE PERFORMANCE
+timestamp=2026-11-15T13:59:06+08:00
+git_commit=73acbdef5450d8cca82b1c86769afdcfa44a585e
+git_dirty=true
+python=3.12.4
+platform=Windows-11-10.0.26200-SP0
+sizes=5000,20000,50000
+warmups_per_size=1
+repeats_per_size=7
+timing_scope=end-to-end subprocess wall time
+output_verified=true
+
+size,zym_median_seconds,python_median_seconds,slowdown_ratio
+5000,0.208071,0.049918,4.17
+20000,0.447927,0.050649,8.84
+50000,0.952376,0.054281,17.55
