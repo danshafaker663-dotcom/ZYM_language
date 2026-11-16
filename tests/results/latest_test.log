@@ -1,11 +1,14 @@
 ZYM AUTOMATED TEST LOG
-timestamp=2026-11-16T10:57:05+08:00
-git_commit=cefe45c07933753f335f090afb003fa476d7dde3
+timestamp=2026-11-16T11:15:42+08:00
+git_commit=b81e1501552e5f66ebcdff38f4e3e5cbe3524af2
 git_dirty=true
 python=3.12.4
 platform=Windows-11-10.0.26200-SP0
 command=python.exe tests/run_tests.py
 
+test_direct_exit (test_application.DungeonGameSmokeTests.test_direct_exit) ... ok
+test_shop_then_exit (test_application.DungeonGameSmokeTests.test_shop_then_exit) ... ok
+test_status_then_exit (test_application.DungeonGameSmokeTests.test_status_then_exit) ... ok
 test_binary_expression_tree (test_ast_nodes.AstNodeTests.test_binary_expression_tree) ... ok
 test_function_declaration (test_ast_nodes.AstNodeTests.test_function_declaration) ... ok
 test_nodes_are_immutable (test_ast_nodes.AstNodeTests.test_nodes_are_immutable) ... ok
@@ -68,15 +71,15 @@ test_missing_and_unknown_fields_are_rejected (test_runtime.StructureValueTests.t
 test_unknown_field_access_is_rejected (test_runtime.StructureValueTests.test_unknown_field_access_is_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 60 tests in 1.417s
+Ran 63 tests in 1.799s
 
 OK
 
 ZYM TEST SUMMARY
-total=60
-passed=60
+total=63
+passed=63
 failures=0
 errors=0
 skipped=0
-elapsed_seconds=1.417219
+elapsed_seconds=1.799562
 successful=True

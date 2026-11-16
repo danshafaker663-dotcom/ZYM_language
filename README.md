@@ -268,6 +268,16 @@ python -m zym examples/hello.zym
 
 完整语法示例位于 `examples/syntax_tour.zym`，详细规则位于 `docs/SYNTAX.md`。
 
+## 完整应用
+
+`app/dungeon_game.zym` 是使用ZYM编写的终端RPG“星火地下城”。程序共399行，其中有效ZYM代码368行，包含角色、怪物、房间、战斗、升级、随机事件、商店和完整菜单循环。
+
+```powershell
+python -m zym app/dungeon_game.zym
+```
+
+应用说明见 `app/README.md`，编程Agent开发过程见 `docs/APPLICATION_DEVELOPMENT_LOG.md`。
+
 ## 黑盒测试设计
 
 测试用例主体使用 ZYM 语言编写。

@@ -1,0 +1,399 @@
+# 星火地下城
+# 使用 ZYM 0.1 编写的终端角色扮演游戏。
+
+declare Player {
+    name,
+    health,
+    maxHealth,
+    attack,
+    gold,
+    potions,
+    level,
+    experience,
+    roomsCleared
+}.
+
+declare Monster {
+    name,
+    health,
+    attack,
+    goldReward,
+    experienceReward
+}.
+
+declare Room {
+    name,
+    description,
+    danger
+}.
+
+makeFunction divider() {
+    output "----------------------------------------".
+}
+
+makeFunction showTitle() {
+    divider().
+    output "          ZYM 星火地下城".
+    output "     探索、战斗，并成长为英雄".
+    divider().
+}
+
+makeFunction createPlayer(name) {
+    return Player {
+        name: name,
+        health: 30,
+        maxHealth: 30,
+        attack: 6,
+        gold: 12,
+        potions: 2,
+        level: 1,
+        experience: 0,
+        roomsCleared: 0
+    }.
+}
+
+makeFunction showStatus(player) {
+    divider().
+    output "英雄：" + player.name.
+    output "等级：" + toText(player.level).
+    output "生命：" + toText(player.health) + "/" + toText(player.maxHealth).
+    output "攻击：" + toText(player.attack).
+    output "金币：" + toText(player.gold).
+    output "药水：" + toText(player.potions).
+    output "经验：" + toText(player.experience) + "/" + toText(player.level * 20).
+    output "已探索房间：" + toText(player.roomsCleared).
+    divider().
+}
+
+makeFunction restoreHealth(player, amount) {
+    set oldHealth := player.health.
+    player.health := player.health + amount.
+    when player.health > player.maxHealth {
+        player.health := player.maxHealth.
+    }
+    return player.health - oldHealth.
+}
+
+makeFunction usePotion(player) {
+    when player.potions <= 0 {
+        output "背包里没有药水。".
+        return false.
+    }
+    when player.health >= player.maxHealth {
+        output "生命值已经是满的。".
+        return false.
+    }
+    player.potions := player.potions - 1.
+    set restored := restoreHealth(player, 12).
+    output "你喝下药水，恢复了 " + toText(restored) + " 点生命。".
+    return true.
+}
+
+makeFunction gainExperience(player, amount) {
+    player.experience := player.experience + amount.
+    output "获得 " + toText(amount) + " 点经验。".
+    set checkingLevel := true.
+    while checkingLevel {
+        set needed := player.level * 20.
+        when player.experience >= needed {
+            player.experience := player.experience - needed.
+            player.level := player.level + 1.
+            player.maxHealth := player.maxHealth + 8.
+            player.attack := player.attack + 2.
+            player.health := player.maxHealth.
+            output "*** 升级！现在是 " + toText(player.level) + " 级。 ***".
+            output "生命和攻击得到提升，生命已恢复。".
+        } otherwise {
+            checkingLevel := false.
+        }
+    }
+}
+
+makeFunction createMonster(danger, playerLevel) {
+    set roll := randInt(1, 100).
+    set bonus := danger + playerLevel.
+    when roll <= 35 {
+        return Monster {
+            name: "洞穴史莱姆",
+            health: 8 + bonus * 2,
+            attack: 2 + danger,
+            goldReward: 4 + danger,
+            experienceReward: 6 + danger * 2
+        }.
+    } otherwise when roll <= 70 {
+        return Monster {
+            name: "荒原哥布林",
+            health: 12 + bonus * 2,
+            attack: 3 + danger,
+            goldReward: 7 + danger * 2,
+            experienceReward: 9 + danger * 2
+        }.
+    } otherwise when roll <= 92 {
+        return Monster {
+            name: "黑甲骷髅",
+            health: 17 + bonus * 3,
+            attack: 4 + danger,
+            goldReward: 10 + danger * 2,
+            experienceReward: 13 + danger * 3
+        }.
+    }
+    return Monster {
+        name: "地下城守卫",
+        health: 24 + bonus * 3,
+        attack: 6 + danger,
+        goldReward: 16 + danger * 3,
+        experienceReward: 20 + danger * 4
+    }.
+}
+
+makeFunction monsterAttack(player, monster) {
+    set damage := monster.attack + randInt(0, 3).
+    player.health := player.health - damage.
+    when player.health < 0 {
+        player.health := 0.
+    }
+    output monster.name + " 对你造成 " + toText(damage) + " 点伤害。".
+    output "你的生命：" + toText(player.health) + "/" + toText(player.maxHealth).
+}
+
+makeFunction playerAttack(player, monster) {
+    set criticalRoll := randInt(1, 100).
+    set damage := player.attack + randInt(0, 4).
+    when criticalRoll <= 15 {
+        damage := damage * 2.
+        output "暴击！".
+    }
+    monster.health := monster.health - damage.
+    when monster.health < 0 {
+        monster.health := 0.
+    }
+    output "你对 " + monster.name + " 造成 " + toText(damage) + " 点伤害。".
+    output monster.name + " 的生命：" + toText(monster.health).
+}
+
+makeFunction fight(player, monster) {
+    divider().
+    output "遭遇 " + monster.name + "！".
+    output "敌人生命：" + toText(monster.health) + "，攻击：" + toText(monster.attack).
+    set fighting := true.
+    set escaped := false.
+    while fighting and player.health > 0 and monster.health > 0 {
+        output "".
+        output "1. 攻击".
+        output "2. 使用药水".
+        output "3. 尝试逃跑".
+        input "战斗选择> " -> action.
+        set monsterTurn := true.
+        when action == "1" {
+            playerAttack(player, monster).
+        } otherwise when action == "2" {
+            usePotion(player).
+        } otherwise when action == "3" {
+            set escapeRoll := randInt(1, 100).
+            when escapeRoll <= 45 {
+                output "你成功逃离了战斗。".
+                escaped := true.
+                fighting := false.
+                monsterTurn := false.
+            } otherwise {
+                output "逃跑失败！".
+            }
+        } otherwise {
+            output "无效选择，本回合没有行动。".
+            monsterTurn := false.
+        }
+
+        when monster.health <= 0 {
+            fighting := false.
+            monsterTurn := false.
+        }
+        when monsterTurn and player.health > 0 {
+            monsterAttack(player, monster).
+        }
+    }
+
+    when player.health <= 0 {
+        output "你倒在了 " + monster.name + " 面前。".
+        return false.
+    }
+    when escaped {
+        return true.
+    }
+
+    output "你击败了 " + monster.name + "！".
+    player.gold := player.gold + monster.goldReward.
+    output "获得 " + toText(monster.goldReward) + " 枚金币。".
+    gainExperience(player, monster.experienceReward).
+    return true.
+}
+
+makeFunction treasureEvent(player) {
+    set goldFound := randInt(5, 14) + player.level.
+    player.gold := player.gold + goldFound.
+    output "你发现一只旧宝箱，得到 " + toText(goldFound) + " 枚金币。".
+    set potionRoll := randInt(1, 100).
+    when potionRoll <= 35 {
+        player.potions := player.potions + 1.
+        output "宝箱夹层里还有一瓶药水。".
+    }
+}
+
+makeFunction trapEvent(player) {
+    set damage := randInt(3, 8) + player.level.
+    player.health := player.health - damage.
+    when player.health < 0 {
+        player.health := 0.
+    }
+    output "地板突然塌陷！你受到 " + toText(damage) + " 点伤害。".
+}
+
+makeFunction shrineEvent(player) {
+    set restored := restoreHealth(player, 10 + player.level * 2).
+    output "古老的星火祭坛照亮房间。".
+    output "温暖的光恢复了 " + toText(restored) + " 点生命。".
+}
+
+makeFunction explore(player, rooms) {
+    set roomIndex := randInt(0, length(rooms) - 1).
+    set room := rooms[roomIndex].
+    divider().
+    output "你进入了：" + room.name.
+    output room.description.
+    player.roomsCleared := player.roomsCleared + 1.
+
+    set eventRoll := randInt(1, 100).
+    when eventRoll <= 22 {
+        treasureEvent(player).
+    } otherwise when eventRoll <= 37 {
+        trapEvent(player).
+    } otherwise when eventRoll <= 52 {
+        shrineEvent(player).
+    } otherwise {
+        set monster := createMonster(room.danger, player.level).
+        fight(player, monster).
+    }
+}
+
+makeFunction shop(player) {
+    set shopping := true.
+    while shopping {
+        divider().
+        output "旅行商店  金币：" + toText(player.gold).
+        output "1. 药水（8金币）".
+        output "2. 磨利武器（25金币，攻击+1）".
+        output "3. 离开商店".
+        input "购买选择> " -> choice.
+        when choice == "1" {
+            when player.gold >= 8 {
+                player.gold := player.gold - 8.
+                player.potions := player.potions + 1.
+                output "购买了一瓶药水。".
+            } otherwise {
+                output "金币不足。".
+            }
+        } otherwise when choice == "2" {
+            when player.gold >= 25 {
+                player.gold := player.gold - 25.
+                player.attack := player.attack + 1.
+                output "武器变得更加锋利。".
+            } otherwise {
+                output "金币不足。".
+            }
+        } otherwise when choice == "3" {
+            shopping := false.
+        } otherwise {
+            output "请输入1、2或3。".
+        }
+    }
+}
+
+makeFunction showHelp() {
+    divider().
+    output "游戏目标".
+    output "探索房间并击败怪物，提升到5级即可获胜。".
+    output "战斗中攻击会造成基础攻击加随机伤害。".
+    output "药水恢复生命，逃跑有45%的成功概率。".
+    output "生命降到0时游戏结束。".
+    divider().
+}
+
+set rooms := [
+    Room {
+        name: "回声长廊",
+        description: "石壁传来遥远的脚步声。",
+        danger: 1
+    },
+    Room {
+        name: "荧光洞穴",
+        description: "蓝色晶体照亮潮湿的道路。",
+        danger: 1
+    },
+    Room {
+        name: "遗忘武库",
+        description: "生锈的兵器散落在灰尘中。",
+        danger: 2
+    },
+    Room {
+        name: "黑石大厅",
+        description: "高大的石柱后似乎藏着什么。",
+        danger: 3
+    },
+    Room {
+        name: "星火圣所",
+        description: "破碎穹顶下仍漂浮着微弱火光。",
+        danger: 2
+    }
+].
+
+showTitle().
+input "请输入英雄名字> " -> heroName.
+when heroName == "" {
+    heroName := "无名英雄".
+}
+set player := createPlayer(heroName).
+output "欢迎，" + player.name + "。你的冒险开始了。".
+showHelp().
+
+set running := true.
+while running and player.health > 0 {
+    output "".
+    output "主菜单".
+    output "1. 探索下一个房间".
+    output "2. 查看英雄状态".
+    output "3. 进入旅行商店".
+    output "4. 查看帮助".
+    output "5. 结束冒险并退出".
+    input "菜单选择> " -> menuChoice.
+
+    when menuChoice == "1" {
+        explore(player, rooms).
+        when player.level >= 5 and player.health > 0 {
+            divider().
+            output "你掌握了星火之力，地下城向你臣服！".
+            output "恭喜通关。".
+            running := false.
+        }
+    } otherwise when menuChoice == "2" {
+        showStatus(player).
+    } otherwise when menuChoice == "3" {
+        shop(player).
+    } otherwise when menuChoice == "4" {
+        showHelp().
+    } otherwise when menuChoice == "5" {
+        running := false.
+    } otherwise {
+        output "请输入1到5。".
+    }
+}
+
+divider().
+when player.health <= 0 {
+    output "冒险结束。星火等待下一位英雄。".
+} otherwise {
+    output "你安全离开了地下城。".
+}
+output "最终等级：" + toText(player.level).
+output "探索房间：" + toText(player.roomsCleared).
+output "携带金币：" + toText(player.gold).
+output "感谢游玩，" + player.name + "！".
+divider().

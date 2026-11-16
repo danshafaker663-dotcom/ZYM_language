@@ -308,7 +308,23 @@ Agent 提供的内容必须经过学生检查，不能直接视为正确结果�
 - 任务：提供面向学生、项目Agent和ZYM代码生成Agent的开发文档。
 - Agent辅助：编写 `docs/LANGUAGE_GUIDE.md`、项目级 `AGENTS.md` 和 `skills/zym-language/SKILL.md`，并实际运行教程中的普通数组和空数组示例。
 - 验证：教程示例分别输出 `Ming 87` 和 `Ming 0`。独立Agent会话验证仍待后续执行。
-- 对应提交：与解释器优化一并审核后创建。
+- 对应提交：`b81e150 docs: add ZYM guides for developers and agents`。
+
+### 记录 018：使用Agent开发星火地下城
+
+- 日期：2026-11-16
+- 任务：使用ZYM开发不少于200行、功能完整的课程应用。
+- 学生输入：在解释器优化和Agent指南完成后要求继续下一阶段。
+- Agent辅助：
+  - 阅读项目ZYM Skill和语法规范，设计终端地下城RPG。
+  - 使用 `Player`、`Monster`、`Room` 三种结构和房间数组组织数据。
+  - 实现17个函数，覆盖探索、战斗、药水、逃跑、升级、金币、随机事件和商店。
+  - 提供固定的主动退出路径，并编写3项子进程冒烟测试。
+  - 生成应用README和独立的 `APPLICATION_DEVELOPMENT_LOG.md`。
+  - 审查菜单文案，移除ZYM 0.1尚未支持的文件存档暗示。
+- 规模：总行数399，去除空行和注释后有效ZYM代码368行。
+- 验证：语法检查通过；直接退出、状态后退出、商店后退出三条路径全部通过。
+- 对应提交：`feat: add ZYM dungeon game application`（哈希以Git历史为准）。
 
 ---
 
