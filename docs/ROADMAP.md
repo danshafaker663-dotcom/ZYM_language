@@ -63,9 +63,9 @@
 
 ## 阶段 7：Agent 开发指南
 
-- [ ] 编写面向人的语言开发指南
-- [ ] 编写 `skills/zym-language/SKILL.md`
-- [ ] 编写项目级 `AGENTS.md`
+- [x] 编写面向人的语言开发指南
+- [x] 编写 `skills/zym-language/SKILL.md`
+- [x] 编写项目级 `AGENTS.md`
 - [ ] 使用新会话验证 Agent 能否根据指南编写正确 ZYM 程序
 
 ## 阶段 8：完整应用
